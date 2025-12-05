@@ -22,6 +22,10 @@ inputs:
     description: "Zig version"
     required: false
     default: "0.13.0"
+  ocaml-version:
+    description: "Ocaml version"
+    required: false
+    default: "5.4.1+ocaml-option-flambda,ocaml-option-no-flat-float-array"
 
 
 runs:
@@ -64,3 +68,11 @@ runs:
       chmod +x ./llvm.sh
       sudo ./llvm.sh ${{ inputs.clang-version }}
     shell: bash
+
+  - name: Install ocaml
+    uses: ocaml/setup-ocaml@v3
+    with:
+      ocaml-compiler: ${{ inputs.ocaml-version }}
+  
+  - name: Install ocaml deps
+    run: opam install . --deps-only --with-test
